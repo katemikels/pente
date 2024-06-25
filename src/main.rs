@@ -39,23 +39,26 @@ fn print_board(board: Vec<Vec<BoardVal>>) {
                 match board[row][col] {
                     BoardVal::Empty => {
                         if row == 0 {
-                            if col == 0 { "┌───" }   
+                            if col == 0 { "┌" }   
                             else if col == board.len()-1 { "┐" } 
-                            else { "┬───" }
+                            else { "┬" }
                         }
                         else if row == board.len()-1 {
-                            if col == 0 { "└───" }   
+                            if col == 0 { "└" }   
                             else if col == board.len()-1 { "┘" } 
-                            else { "┴───" }
+                            else { "┴" }
                         } 
-                        else if col == 0 { "├───" }
+                        else if col == 0 { "├" }
                         else if col == board.len()-1 { "┤" }
-                        else { "┼───" }
+                        else { "┼" }
                     },
-                    BoardVal::Player1 => "◎───",
-                    BoardVal::Player2 => "●───",
+                    BoardVal::Player1 => "◎",
+                    BoardVal::Player2 => "●",
                 }
             );
+            // don't print filler if on last column
+            if col == board.len()-1 { continue; }
+            print!("───");
         }
         println!();
 
