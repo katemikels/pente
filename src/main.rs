@@ -10,14 +10,66 @@ struct Player {
     five_in_a_row: bool
 }
 
-fn print_board(board: Vec<Vec<char>>){
-    println!("Contents of the board:");
-    for row in board {
-        for col in row {
-            print!("{}", col);
+#[derive(Clone)]
+enum BoardVal {
+    Empty,
+    Player1,
+    Player2,
+}
+
+fn print_board(board: Vec<Vec<BoardVal>>) {
+    // println!("Contents of the board:");
+
+    // print column identifiers
+    println!();
+    print!("{:3}", 0);
+    for col in 1..board.len() {
+        print!("{:4}", col);
+    }   
+    println!();
+
+    // print board rows
+    for row in 0..board.len() {
+        // print row identifier
+        print!("{} ", (65 + row) as u8 as char);
+
+        // print row contents
+        for col in 0..board[row].len() {
+            print!("{}", 
+                match board[row][col] {
+                    BoardVal::Empty => {
+                        if row == 0 {
+                            if col == 0 { "┌───" }   
+                            else if col == board.len()-1 { "┐" } 
+                            else { "┬───" }
+                        }
+                        else if row == board.len()-1 {
+                            if col == 0 { "└───" }   
+                            else if col == board.len()-1 { "┘" } 
+                            else { "┴───" }
+                        } 
+                        else if col == 0 { "├───" }
+                        else if col == board.len()-1 { "┤" }
+                        else { "┼───" }
+                    },
+                    BoardVal::Player1 => "◎───",
+                    BoardVal::Player2 => "●───",
+                }
+            );
+        }
+        println!();
+
+        // if on last row, don't print blank line underneath
+        if row == board.len()-1 { break; }
+
+        // print blank lines
+        print!("  ");
+        for col in 0..board[row].len() {
+            print!("│   ")
         }
         println!();
     }
+    println!();
     // for row in 0..board.len() {
     //     for col in 0..board[row].len(){
     //         print!("{}", board[row][col]);
@@ -63,7 +115,7 @@ fn main() {
     // let mut board:Vec<Vec<char>> = vec![vec![]];
     // let mut board:Vec<Vec<char>> = Vec::new();
     
-    let mut board = vec![vec!['.'; bs]; bs];
+    let mut board = vec![vec![BoardVal::Empty; bs]; bs];
 
     // for i in 0..bs {
     //     board.push(vec![]);
@@ -93,7 +145,7 @@ fn main() {
                         eprintln!("Row entered was not within board size"); 
                         usize::MAX
                     } else {
-                        x as usize
+                        x as usize - 'A' as usize
                     }
                 } else {
                     eprintln!("Row entered was not an uppercase letter"); 
@@ -121,6 +173,7 @@ fn main() {
     // let row = &coordinates[0..1];
     // let col = &coordinates[1..2];
     println!("You entered row {} column {}!", coordinates.0, coordinates.1);
+    board[row][col] = BoardVal::Player1;
 
     print_board(board);
 
