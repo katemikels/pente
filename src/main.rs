@@ -18,8 +18,6 @@ enum BoardVal {
 }
 
 fn print_board(board: Vec<Vec<BoardVal>>) {
-    // println!("Contents of the board:");
-
     // print column identifiers
     println!();
     print!("{:3}", 0);
@@ -67,27 +65,16 @@ fn print_board(board: Vec<Vec<BoardVal>>) {
 
         // print blank lines
         print!("  ");
-        for col in 0..board[row].len() {
+        for _col in 0..board[row].len() {
             print!("│   ")
         }
         println!();
     }
     println!();
-    // for row in 0..board.len() {
-    //     for col in 0..board[row].len(){
-    //         print!("{}", board[row][col]);
-    //     }
-    //     println!("");
-    // }
 }
 
 // the heart of the game
 fn main() {
-    // argument code?
-    // let args: Vec<String> = env::args().collect();
-    // let filename = &args[1];
-    // let tam: &i32 = &args[2].parse::<usize>().unwrap();
-
     let mut bs: usize;
     loop {
         print!("Please enter the board size: ");
@@ -97,11 +84,6 @@ fn main() {
             .read_line(&mut board_size_str)
             .expect("Failed to read line");
 
-        // let bs: usize = board_size_str
-        //     .trim()
-        //     .parse()
-        //     .expect("Index entered was not a number");
-    
         // I'm so sorry for how cursed this is lol
         bs = match board_size_str.trim().parse::<usize>() {
             Ok(x) => match x { 
@@ -112,21 +94,8 @@ fn main() {
         };
         if bs != 0 { break; }
     }
-
-    // let collected_iterator: Vec<i32> = (0..bs).collect();
-    // println!("Collected (0..10) into: {:?}", collected_iterator);
-    // let mut board:Vec<Vec<char>> = vec![vec![]];
-    // let mut board:Vec<Vec<char>> = Vec::new();
     
     let mut board = vec![vec![BoardVal::Empty; bs]; bs];
-
-    // for i in 0..bs {
-    //     board.push(vec![]);
-    //     for _j in 0..bs {
-    //         board[i].push('.');
-    //     }
-    // }
-
     let mut coordinates: (&str, &str);
     let mut row: usize;
     let mut col: usize;
@@ -172,9 +141,7 @@ fn main() {
         
         if row != usize::MAX && col != usize::MAX { break; }
     }
-    // let coordinates= coord_str.trim();
-    // let row = &coordinates[0..1];
-    // let col = &coordinates[1..2];
+
     println!("You entered row {} column {}!", coordinates.0, coordinates.1);
     board[row][col] = BoardVal::Player1;
 
